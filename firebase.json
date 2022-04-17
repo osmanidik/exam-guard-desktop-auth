@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "exam-guard-desktop-auth",
     "public": "build",
     "ignore": [
       "firebase.json",
