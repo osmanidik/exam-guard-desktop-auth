@@ -6,13 +6,14 @@ import 'firebase/compat/firestore';
 import './App.css'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDk2zZgj6v3lYXP7t2nMRt_ed0Yx_GHUDs",
-  authDomain: "test-74c4e.firebaseapp.com",
-  projectId: "test-74c4e",
-  storageBucket: "test-74c4e.appspot.com",
-  messagingSenderId: "1042584282399",
-  appId: "1:1042584282399:web:db92447f7c8b3e215efc2a"
-}
+  apiKey: "AIzaSyCl6GmEgISrQQu7t6n-WbqBOplfluy5rVE",
+  authDomain: "exam-guard.firebaseapp.com",
+  projectId: "exam-guard",
+  storageBucket: "exam-guard.appspot.com",
+  messagingSenderId: "507674917189",
+  appId: "1:507674917189:web:5912b3c63760cfa330262c",
+  measurementId: "G-NJJGK89N8M"
+};
 
 firebase.initializeApp(firebaseConfig);
 
@@ -28,18 +29,13 @@ const uiConfig = {
   },
 };
 
-const checkStudentSecret = (secret) => {
-  db.collection('student').get().then((query) => {
-    query.forEach((doc) => {
-      if (doc.data()["secret"] === secret) {
-        db.collection('student').doc(doc.id).set({
-          sid: firebase.auth().currentUser.uid,
-          snumber: doc.data()["snumber"],
-          secret: doc.data()["secret"]
-        });
-      }
-    });
-  })
+const registerStudent = (name, surname, number) => {
+  db.collection('students').add({
+    uid: firebase.auth().currentUser.uid,
+    name: name,
+    surname: surname,
+    number: number
+  });
 };
 
 const exportUser = (user) => {
@@ -54,7 +50,9 @@ const exportUser = (user) => {
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
-  const [secret, setSecret] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [number, setNumber] = useState("");
 
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
@@ -64,9 +62,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const userRegisteredObserver = db.collection('student').onSnapshot(snap => {
+    const userRegisteredObserver = db.collection('students').onSnapshot(snap => {
       snap.forEach((doc) => {
-        if (doc.data()["sid"] === firebase.auth().currentUser?.uid) {
+        if (doc.data()["uid"] === firebase.auth().currentUser?.uid) {
           setIsRegistered(true);
         }
       });
@@ -85,11 +83,17 @@ function App() {
   if (!isRegistered) {
     return (
       <div className='register'>
-        <h1>Lütfen size gönderilmiş olan şifreyi giriniz:</h1>
-        <input onChange={(e) => setSecret(e.target.value)}/>
-        <button onClick={() => checkStudentSecret(secret)}>Onayla</button>
+        <h1 className='regtitle'>Sistemde kayıtlı değilsiniz. Lütfen bilgilerinizi giriniz.</h1>
+        <span className='respan'>Adınız:</span>
+        <input className='reginput' onChange={(e) => setName(e.target.value)}/>
+        <span className='respan'>Soyadınız:</span>
+        <input className='reginput' onChange={(e) => setSurname(e.target.value)}/>
+        <span className='respan'>Numaranız:</span>
+        <input className='reginput' onChange={(e) => setNumber(e.target.value)}/>
         <br/>
-        <a onClick={() => {firebase.auth().signOut();localStorage.clear();setIsSignedIn(false);setIsRegistered(false);}}>Çıkış Yap</a>
+        <button className='regbutton' onClick={() => registerStudent(name, surname, number)}>Kaydol</button>
+        <br/>
+        <button className='regexit' onClick={() => {firebase.auth().signOut();localStorage.clear();setIsSignedIn(false);setIsRegistered(false);}}>Çıkış Yap</button>
       </div>
     );
   }
@@ -99,8 +103,7 @@ function App() {
   return (
     <div>
       <h1>Exam Guard</h1>
-      <p>Merhaba {firebase.auth().currentUser.email}! Giriş yaptınız!</p>
-      <a onClick={() => {firebase.auth().signOut();localStorage.clear();setIsSignedIn(false);setIsRegistered(false);}}>Çıkış Yap</a>
+      <p>Merhaba {firebase.auth().currentUser.email}! Giriş yaptınız! Bu sayfayı kapatarak Exam Guard programından devam edebilirsiniz.</p>
     </div>
   );
 }

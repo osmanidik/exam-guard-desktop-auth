@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+.register {
+  display: grid;
+  grid-template-columns: 2fr 4fr 2fr;
+}
+
+.regtitle {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.reginput {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+
+.regbutton {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.regexit {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
