@@ -1,5 +1,14 @@
 .App {
-  text-align: center;
+	text-align: center;
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+  color: black;
+	background-image: url('../public/background.jpg');
 }
 
 .App-logo {
@@ -37,9 +46,20 @@
   }
 }
 
+.login {
+	width: 40%;
+	box-shadow: 8px 6px #4e4e4e;
+}
+
+.buttonLogin {
+	margin-top: 17% !important;
+	margin-bottom: 20% !important;
+}
+
 .register {
   display: grid;
   grid-template-columns: 2fr 4fr 2fr;
+  row-gap: 0.5rem;
 }
 
 .regtitle {
@@ -52,12 +72,26 @@
   grid-column-end: 4;
 }
 
+.regspan {
+  margin: 0;
+}
+
 .regbutton {
   grid-column-start: 3;
   grid-column-end: 4;
+  border: none;
+  border-radius: 0;
+  background-color: #13274e;
+  color: white;
+  padding: 0.2rem;
+  font-size: 0.8rem;
 }
 
-.regexit {
-  grid-column-start: 3;
-  grid-column-end: 4;
+.success {
+  padding: 2rem;
+  text-align: justify;
+}
+
+.success > span {
+  font-size: 50%;
 }
