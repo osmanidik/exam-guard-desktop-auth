@@ -85,7 +85,7 @@ function App() {
     );
   }
 
-  if (!isRegistered) {
+  /* if (!isRegistered) {
     return (
       <div className='App'>
         <div className='register'>
@@ -103,7 +103,7 @@ function App() {
         </div>
       </div>
     );
-  }
+  } */
 
   exportUser(firebase.auth().currentUser);
 
